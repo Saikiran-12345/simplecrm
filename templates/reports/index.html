@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% block title %}Reports - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Data Export & Reports</h1>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Download your CRM data in CSV format for external reporting or backups.</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        
+        <div class="card" style="border: 1px solid var(--border-color); box-shadow: none;">
+            <h3>Customer Data</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Export all active and inactive customers.</p>
+            <a href="{{ url_for('reports.export_csv', module='customers') }}" class="btn btn-primary">Export CSV</a>
+        </div>
+        
+        <div class="card" style="border: 1px solid var(--border-color); box-shadow: none;">
+            <h3>Sales & Revenue</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Export all finalized sales records.</p>
+            <a href="{{ url_for('reports.export_csv', module='sales') }}" class="btn btn-primary">Export CSV</a>
+        </div>
+        
+        <div class="card" style="border: 1px solid var(--border-color); box-shadow: none;">
+            <h3>Leads Pipeline</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Export all leads and their conversion statuses.</p>
+            <a href="{{ url_for('reports.export_csv', module='leads') }}" class="btn btn-primary">Export CSV</a>
+        </div>
+        
+        <div class="card" style="border: 1px solid var(--border-color); box-shadow: none;">
+            <h3>Opportunities</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Export opportunity forecasting and stages.</p>
+            <a href="{{ url_for('reports.export_csv', module='opportunities') }}" class="btn btn-primary">Export CSV</a>
+        </div>
+        
+        <div class="card" style="border: 1px solid var(--border-color); box-shadow: none;">
+            <h3>Invoices</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Export billing records.</p>
+            <a href="{{ url_for('reports.export_csv', module='invoices') }}" class="btn btn-primary">Export CSV</a>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

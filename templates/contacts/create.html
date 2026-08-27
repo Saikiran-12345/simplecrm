@@ -1,0 +1,48 @@
+{% extends "base/base.html" %}
+{% block title %}Add Contact - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Add New Contact</h1>
+    <form method="POST" action="{{ url_for('contacts.create_contact') }}" style="max-width: 600px; margin-top: 1.5rem;">
+        
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">First Name</label>
+    <input type="text" name="first_name" value="{{ contact.first_name if contact else '' }}" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Last Name</label>
+    <input type="text" name="last_name" value="{{ contact.last_name if contact else '' }}" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Title/Position</label>
+    <input type="text" name="title" value="{{ contact.title if contact else '' }}" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Associated Customer</label>
+    <select name="customer_id" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+        <option value="">-- None --</option>
+        {% for customer in customers %}
+        <option value="{{ customer.id }}" {% if contact and contact.customer_id == customer.id %}selected{% endif %}>
+            {{ customer.first_name }} {{ customer.last_name }} ({{ customer.company }})
+        </option>
+        {% endfor %}
+    </select>
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Email</label>
+    <input type="email" name="email" value="{{ contact.email if contact else '' }}" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Phone</label>
+    <input type="text" name="phone" value="{{ contact.phone if contact else '' }}" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Notes</label>
+    <textarea name="notes" rows="4" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">{{ contact.notes if contact else '' }}</textarea>
+</div>
+
+        <button type="submit" class="btn btn-primary">Create Contact</button>
+        <a href="{{ url_for('contacts.list_contacts') }}" class="btn" style="background: var(--border-color);">Cancel</a>
+    </form>
+</div>
+{% endblock %}

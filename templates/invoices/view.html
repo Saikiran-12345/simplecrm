@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+{% block title %}Invoice {{ invoice.invoice_number }} - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between;">
+    <div>
+        <h1>Invoice: {{ invoice.invoice_number }}</h1>
+        <p><strong>Status:</strong> {{ invoice.status }}</p>
+        <p><strong>Date:</strong> {{ invoice.invoice_date }}</p>
+        <p><strong>Due:</strong> {{ invoice.due_date }}</p>
+    </div>
+    <div style="text-align: right;">
+        <h3>Bill To:</h3>
+        <p>{{ customer.first_name }} {{ customer.last_name }}</p>
+        <p>{{ customer.company }}</p>
+        <button class="btn btn-primary" onclick="window.print()" style="margin-top:1rem;">Print Invoice</button>
+    </div>
+</div>
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse; margin-top:1rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Item</th><th style="padding: 0.75rem;">Qty</th><th style="padding: 0.75rem;">Price</th><th style="padding: 0.75rem;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in invoice.get('items', []) %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem;">{{ item.product_name }}</td>
+                <td style="padding: 0.75rem;">{{ item.quantity }}</td>
+                <td style="padding: 0.75rem;">${{ "%.2f"|format(item.price) }}</td>
+                <td style="padding: 0.75rem;">${{ "%.2f"|format(item.line_total) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="margin-top: 1.5rem; text-align: right;">
+        <p><strong>Subtotal:</strong> ${{ "%.2f"|format(invoice.subtotal) }}</p>
+        <p><strong>Discount:</strong> -${{ "%.2f"|format(invoice.discount) }}</p>
+        <p><strong>Tax:</strong> ${{ "%.2f"|format(invoice.tax_amount) }}</p>
+        <h2 style="margin-top: 0.5rem;">Total: ${{ "%.2f"|format(invoice.total) }}</h2>
+    </div>
+</div>
+{% endblock %}

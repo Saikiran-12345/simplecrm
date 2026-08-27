@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>Workflow Automations</h1>
+    <a href="{{ url_for('automations.create') }}" class="btn btn-primary">Create Rule</a>
+</div>
+<div class="card">
+    <table style="width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:2px solid #ccc; text-align:left;">
+            <th>Name</th><th>Module</th><th>Trigger</th><th>Status</th>
+        </tr>
+        {% for w in workflows %}
+        <tr style="border-bottom:1px solid #eee;">
+            <td style="padding:0.5rem;">{{ w.name }}</td>
+            <td style="padding:0.5rem;">{{ w.module }}</td>
+            <td style="padding:0.5rem;">{{ w.event_type }}</td>
+            <td style="padding:0.5rem; color:green;">{{ w.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base/base.html" %}
+{% block title %}Create Invoice - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Create Invoice</h1>
+    <form method="POST" action="{{ url_for('invoices.create_invoice') }}">
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Customer</label>
+            <select name="customer_id" required style="width:100%; padding:0.5rem;">
+                <option value="">-- Select Customer --</option>
+                {% for c in customers %}<option value="{{ c.id }}">{{ c.first_name }} {{ c.last_name }}</option>{% endfor %}
+            </select>
+        </div>
+        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group" style="flex:1;">
+                <label>Invoice Date</label><input type="date" name="invoice_date" required style="width:100%; padding:0.5rem;">
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label>Due Date</label><input type="date" name="due_date" required style="width:100%; padding:0.5rem;">
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Status</label>
+            <select name="status" style="width:100%; padding:0.5rem;">
+                <option value="Draft">Draft</option>
+                <option value="Sent">Sent</option>
+            </select>
+        </div>
+        
+        <h3>Products</h3>
+        <div id="product-rows">
+            <div class="product-row" style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+                <select name="product_id[]" style="flex-grow: 1; padding:0.5rem;">
+                    <option value="">-- Select Product --</option>
+                    {% for p in products %}<option value="{{ p.id }}">{{ p.name }} - ${{ p.price }}</option>{% endfor %}
+                </select>
+                <input type="number" name="quantity[]" placeholder="Qty" step="1" min="1" style="width: 100px; padding:0.5rem;">
+            </div>
+        </div>
+        <button type="button" class="btn" id="add-row" style="margin-bottom: 1rem; background: var(--border-color);">+ Add Another Product</button>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; margin-top:1rem;">
+            <div class="form-group"><label>Discount ($)</label><input type="number" name="discount" step="0.01" value="0.00" style="width:100%; padding:0.5rem;"></div>
+            <div class="form-group"><label>Tax (%)</label><input type="number" name="tax" step="0.01" value="0.00" style="width:100%; padding:0.5rem;"></div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Generate Invoice</button>
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.getElementById('add-row').addEventListener('click', function() {
+    const row = document.querySelector('.product-row').cloneNode(true);
+    row.querySelector('select').value = '';
+    row.querySelector('input').value = '';
+    document.getElementById('product-rows').appendChild(row);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% block title %}Notifications - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>My Notifications</h1>
+    <form method="POST" action="{{ url_for('notifications.mark_all_read') }}">
+        <button class="btn" style="background:var(--border-color);">Mark All as Read</button>
+    </form>
+</div>
+<div class="card">
+    <ul style="list-style:none; padding:0;">
+        {% for n in notifications %}
+        <li style="padding: 1rem; border-bottom: 1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; background: {% if not n.is_read %}#f0fdf4{% else %}transparent{% endif %};">
+            <div>
+                <strong style="color:var(--text-color);">{{ n.message }}</strong>
+                <div style="font-size:0.8rem; color:var(--text-muted);">{{ n.created_at[:16] }}</div>
+            </div>
+            {% if not n.is_read %}
+            <form method="POST" action="{{ url_for('notifications.mark_read', record_id=n.id) }}">
+                <button class="btn btn-primary" style="padding:0.25rem 0.5rem; font-size:0.8rem;">Mark Read</button>
+            </form>
+            {% else %}
+            <span style="font-size:0.8rem; color:var(--text-muted);">Read</span>
+            {% endif %}
+        </li>
+        {% else %}
+        <p style="text-align:center; color:var(--text-muted); padding:1rem;">No notifications yet.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

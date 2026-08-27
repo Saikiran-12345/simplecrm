@@ -1,0 +1,36 @@
+{% extends "base/base.html" %}
+{% block title %}Sales - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Sales</h1>
+    <a href="{{ url_for('sales.create_sale') }}" class="btn btn-primary">Create Sale</a>
+</div>
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Date</th>
+                <th style="padding: 0.75rem;">Customer</th>
+                <th style="padding: 0.75rem;">Status</th>
+                <th style="padding: 0.75rem;">Total</th>
+                <th style="padding: 0.75rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sales %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem;">{{ s.sales_date }}</td>
+                <td style="padding: 0.75rem;">{{ s.customer_name }}</td>
+                <td style="padding: 0.75rem;">{{ s.status }}</td>
+                <td style="padding: 0.75rem;">${{ "%.2f"|format(s.total) }}</td>
+                <td style="padding: 0.75rem;">
+                    <a href="{{ url_for('sales.view_sale', record_id=s.id) }}" style="color: var(--primary-color); text-decoration: none;">View</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="padding: 1rem; text-align: center;">No sales found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

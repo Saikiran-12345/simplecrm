@@ -1,0 +1,38 @@
+{% extends "base/base.html" %}
+{% block title %}Invoices - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Invoices</h1>
+    <a href="{{ url_for('invoices.create_invoice') }}" class="btn btn-primary">Create Invoice</a>
+</div>
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Inv #</th>
+                <th style="padding: 0.75rem;">Date</th>
+                <th style="padding: 0.75rem;">Customer</th>
+                <th style="padding: 0.75rem;">Status</th>
+                <th style="padding: 0.75rem;">Total</th>
+                <th style="padding: 0.75rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in invoices %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem; font-weight: bold;">{{ i.invoice_number }}</td>
+                <td style="padding: 0.75rem;">{{ i.invoice_date }}</td>
+                <td style="padding: 0.75rem;">{{ i.customer_name }}</td>
+                <td style="padding: 0.75rem;">{{ i.status }}</td>
+                <td style="padding: 0.75rem;">${{ "%.2f"|format(i.total) }}</td>
+                <td style="padding: 0.75rem;">
+                    <a href="{{ url_for('invoices.view_invoice', record_id=i.id) }}" style="color: var(--primary-color);">View</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" style="padding: 1rem; text-align: center;">No invoices found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

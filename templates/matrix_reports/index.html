@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="card">
+    <h1>Advanced Matrix Reports</h1>
+    <p>Sales Performance by Employee by Month (Cross-Tabulation)</p>
+</div>
+<div class="card" style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr style="background:#f1f5f9; border-bottom:2px solid #ccc; text-align:right;">
+                <th style="padding:0.75rem; text-align:left;">Employee</th>
+                {% for m in months %}
+                <th style="padding:0.75rem;">{{ m }}</th>
+                {% endfor %}
+                <th style="padding:0.75rem; font-weight:bold; color:var(--primary-color);">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in report_data %}
+            <tr style="border-bottom:1px solid #eee; text-align:right;">
+                <td style="padding:0.75rem; text-align:left; font-weight:bold;">{{ row.employee }}</td>
+                {% for val in row.totals %}
+                <td style="padding:0.75rem;">${{ "%.2f"|format(val) }}</td>
+                {% endfor %}
+                <td style="padding:0.75rem; font-weight:bold; color:var(--primary-color);">${{ "%.2f"|format(row.row_total) }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="100%" style="text-align:center; padding:1rem;">No matrix data available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

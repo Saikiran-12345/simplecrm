@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+{% block title %}Tasks - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Tasks</h1>
+    <a href="{{ url_for('tasks.create_task') }}" class="btn btn-primary">Add Task</a>
+</div>
+
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Description</th>
+                <th style="padding: 0.75rem;">Due Date</th>
+                <th style="padding: 0.75rem;">Status</th>
+                <th style="padding: 0.75rem;">Priority</th>
+                <th style="padding: 0.75rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem;">
+                    {% if task.is_overdue %}<span style="color: var(--danger-color); font-weight: bold;">[OVERDUE]</span>{% endif %}
+                    {{ task.description }}
+                </td>
+                <td style="padding: 0.75rem; {% if task.is_overdue %}color: var(--danger-color); font-weight:bold;{% endif %}">{{ task.due_date }}</td>
+                <td style="padding: 0.75rem;">{{ task.status }}</td>
+                <td style="padding: 0.75rem;">{{ task.priority }}</td>
+                <td style="padding: 0.75rem; display: flex; gap: 0.5rem;">
+                    <a href="{{ url_for('tasks.edit_task', record_id=task.id) }}" style="color: var(--primary-color); text-decoration: none;">Edit</a>
+                    <form method="POST" action="{{ url_for('tasks.delete_task', record_id=task.id) }}" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:var(--danger-color); cursor:pointer; text-decoration:underline;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="padding: 1rem; text-align: center;">No tasks found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

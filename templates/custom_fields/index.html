@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>Custom Fields Definition</h1>
+    <a href="{{ url_for('custom_fields.create') }}" class="btn btn-primary">Add Field</a>
+</div>
+<div class="card">
+    <table style="width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:2px solid #ccc; text-align:left;">
+            <th>Module</th><th>Label</th><th>Internal Name</th><th>Type</th><th>Required</th>
+        </tr>
+        {% for f in fields %}
+        <tr style="border-bottom:1px solid #eee;">
+            <td style="padding:0.5rem;">{{ f.module }}</td>
+            <td style="padding:0.5rem;">{{ f.field_label }}</td>
+            <td style="padding:0.5rem;"><code>{{ f.field_name }}</code></td>
+            <td style="padding:0.5rem;">{{ f.field_type }}</td>
+            <td style="padding:0.5rem;">{{ 'Yes' if f.is_required else 'No' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

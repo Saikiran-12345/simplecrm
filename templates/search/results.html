@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+{% block title %}Search Results - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Global Search Results</h1>
+    <p>Searching for: <strong>"{{ query }}"</strong></p>
+</div>
+<div class="card">
+    {% if results %}
+        <ul style="list-style-type: none; padding: 0;">
+        {% for r in results %}
+            <li style="padding: 1rem; border-bottom: 1px solid var(--border-color);">
+                <span style="display:inline-block; padding:0.25rem 0.5rem; background:#e2e8f0; border-radius:4px; font-size:0.75rem; margin-right:1rem;">{{ r.type }}</span>
+                <a href="{{ r.link }}" style="font-weight: bold; color: var(--primary-color); font-size:1.1rem; text-decoration:none;">{{ r.title }}</a>
+                <span style="color: var(--text-muted); margin-left: 1rem;">{{ r.desc }}</span>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p style="padding: 1rem; text-align: center; color: var(--text-muted);">No results found.</p>
+    {% endif %}
+</div>
+{% endblock %}

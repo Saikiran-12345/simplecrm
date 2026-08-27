@@ -1,0 +1,28 @@
+{% extends "base/base.html" %}
+{% block title %}Employees - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>HR / Employees</h1>
+    {% if session.get('user_role') == 'Admin' %}
+    <a href="{{ url_for('employees.create_employee') }}" class="btn btn-primary">Add Employee</a>
+    {% endif %}
+</div>
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Name</th><th style="padding: 0.75rem;">Title</th><th style="padding: 0.75rem;">Dept</th><th style="padding: 0.75rem;">Hire Date</th><th style="padding: 0.75rem;">Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in employees %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem; font-weight: bold;">{{ e.name }}</td><td style="padding: 0.75rem;">{{ e.title }}</td><td style="padding: 0.75rem;">{{ e.department }}</td><td style="padding: 0.75rem;">{{ e.hire_date }}</td><td style="padding: 0.75rem;">{{ e.performance_rating }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="padding: 1rem; text-align: center;">No employees found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

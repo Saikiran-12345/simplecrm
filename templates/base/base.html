@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ global_settings.get('company_name', 'SimpleCRM') }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>{{ global_settings.get('company_name', 'SimpleCRM') }}</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('customers.list_customers') }}">Customers</a></li>
+                    <li><a href="{{ url_for('contacts.list_contacts') }}">Contacts</a></li>
+                    <li><a href="{{ url_for('leads.list_leads') }}">Leads</a></li>
+                    <li><a href="{{ url_for('opportunities.list_opportunities') }}">Opportunities</a></li>
+                    <li><a href="{{ url_for('products.list_products') }}">Products</a></li>
+                    <li><a href="{{ url_for('sales.list_sales') }}">Sales</a></li>
+                    <li><a href="{{ url_for('invoices.list_invoices') }}">Invoices</a></li>
+                    <li><a href="{{ url_for('payments.list_payments') }}">Payments</a></li>
+                    <li><a href="{{ url_for('tasks.list_tasks') }}">Tasks</a></li>
+                    <li><a href="{{ url_for('followups.list_followups') }}">Follow-ups</a></li>
+                    <li><a href="{{ url_for('notes.list_notes') }}">Notes</a></li>
+                    <li><a href="{{ url_for('reports.index') }}">Reports</a></li>
+                    <li><a href="{{ url_for('analytics.index') }}">Analytics</a></li>
+                    
+                    {% if session.get('user_role') == 'Admin' %}
+                    <li style="margin-top:1.5rem; padding-left:1.5rem; font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:bold;">Administration</li>
+                    <li><a href="{{ url_for('employees.list_employees') }}">Employees</a></li>
+                    <li><a href="{{ url_for('rbac.list_roles') }}">User Roles</a></li>
+                    <li><a href="{{ url_for('audit.index') }}">Audit Logs</a></li>
+                    <li><a href="{{ url_for('settings.index') }}">Settings</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-header">
+                <form class="search-bar" action="{{ url_for('search.global_search') }}" method="GET">
+                    <input type="text" name="q" placeholder="Global Search (Customers, Leads, Opps)...">
+                </form>
+                
+                <div class="header-actions">
+                    <a href="{{ url_for('notifications.index') }}">
+                        Alerts 
+                        {% if unread_notifications and unread_notifications > 0 %}
+                        <span class="badge">{{ unread_notifications }}</span>
+                        {% endif %}
+                    </a>
+                    
+                    {% if session.get('user_id') %}
+                    <span>{{ session.get('username') }} ({{ session.get('user_role') }})</span>
+                    <a href="{{ url_for('auth.logout') }}" style="color:var(--danger-color);">Logout</a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login') }}">Login</a>
+                    {% endif %}
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

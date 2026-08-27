@@ -1,0 +1,50 @@
+{% extends "base/base.html" %}
+{% block title %}Contacts - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Contacts</h1>
+    <a href="{{ url_for('contacts.create_contact') }}" class="btn btn-primary">Add Contact</a>
+</div>
+
+<div class="card">
+    <form method="GET" action="{{ url_for('contacts.list_contacts') }}" style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search contacts..." style="flex-grow: 1; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem;">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if search_query %}
+            <a href="{{ url_for('contacts.list_contacts') }}" class="btn" style="background: var(--border-color);">Clear</a>
+        {% endif %}
+    </form>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Name</th>
+                <th style="padding: 0.75rem;">Title</th>
+                <th style="padding: 0.75rem;">Customer</th>
+                <th style="padding: 0.75rem;">Email</th>
+                <th style="padding: 0.75rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem; font-weight: 500;">{{ contact.first_name }} {{ contact.last_name }}</td>
+                <td style="padding: 0.75rem;">{{ contact.title }}</td>
+                <td style="padding: 0.75rem;">{{ contact.customer_name or 'N/A' }}</td>
+                <td style="padding: 0.75rem;">{{ contact.email }}</td>
+                <td style="padding: 0.75rem; display: flex; gap: 0.5rem;">
+                    <a href="{{ url_for('contacts.edit_contact', record_id=contact.id) }}" style="color: var(--primary-color); text-decoration: none;">Edit</a>
+                    <form method="POST" action="{{ url_for('contacts.delete_contact', record_id=contact.id) }}" onsubmit="return confirm('Delete this contact?');" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:var(--danger-color); cursor:pointer; text-decoration:underline;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="padding: 1rem; text-align: center; color: var(--text-muted);">No contacts found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+{% block title %}Record Payment - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Record Payment</h1>
+    <form method="POST" action="{{ url_for('payments.create_payment') }}">
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Invoice</label>
+            <select name="invoice_id" required style="width:100%; padding:0.5rem;">
+                <option value="">-- Select Invoice --</option>
+                {% for i in invoices %}
+                <option value="{{ i.id }}">{{ i.invoice_number }} (Total: ${{ "%.2f"|format(i.total) }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Customer</label>
+            <select name="customer_id" required style="width:100%; padding:0.5rem;">
+                <option value="">-- Select Customer --</option>
+                {% for c in customers %}<option value="{{ c.id }}">{{ c.first_name }} {{ c.last_name }}</option>{% endfor %}
+            </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Amount ($)</label>
+            <input type="number" step="0.01" name="amount" required style="width:100%; padding:0.5rem;">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Payment Date</label>
+            <input type="date" name="payment_date" required style="width:100%; padding:0.5rem;">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Method</label>
+            <select name="payment_method" required style="width:100%; padding:0.5rem;">
+                <option value="Card">Card</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cash">Cash</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Payment</button>
+    </form>
+</div>
+{% endblock %}

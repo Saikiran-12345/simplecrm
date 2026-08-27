@@ -1,0 +1,78 @@
+{% extends "base/base.html" %}
+{% block title %}Dashboard - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="margin-bottom: 1rem; padding: 1rem 1.5rem;">
+    <h2>Dashboard Overview</h2>
+    <p style="color: var(--text-muted);">Welcome back, {{ session.get('username') }}!</p>
+</div>
+
+<!-- Main Metrics Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+    <div class="card" style="border-left: 4px solid var(--primary-color);">
+        <h4 style="color: var(--text-muted); margin-bottom: 0.5rem;">Customers</h4>
+        <div style="font-size: 2rem; font-weight: bold;">{{ metrics.total_customers }}</div>
+        <div style="font-size: 0.85rem; color: var(--success-color);">+{{ metrics.new_customers }} today</div>
+    </div>
+    
+    <div class="card" style="border-left: 4px solid var(--warning-color);">
+        <h4 style="color: var(--text-muted); margin-bottom: 0.5rem;">Leads</h4>
+        <div style="font-size: 2rem; font-weight: bold;">{{ metrics.total_leads }}</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);">{{ metrics.qualified_leads }} Qualified</div>
+    </div>
+    
+    <div class="card" style="border-left: 4px solid #8b5cf6;">
+        <h4 style="color: var(--text-muted); margin-bottom: 0.5rem;">Opportunities</h4>
+        <div style="font-size: 2rem; font-weight: bold;">{{ metrics.open_opps }}</div>
+        <div style="font-size: 0.85rem; color: var(--success-color);">{{ metrics.won_opps }} Won</div>
+    </div>
+    
+    <div class="card" style="border-left: 4px solid var(--success-color);">
+        <h4 style="color: var(--text-muted); margin-bottom: 0.5rem;">Total Sales</h4>
+        <div style="font-size: 2rem; font-weight: bold;">${{ "%.2f"|format(metrics.total_sales) }}</div>
+    </div>
+</div>
+
+<!-- Secondary Metrics Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+    
+    <div class="card">
+        <h3 style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">Invoices</h3>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Pending</span><span style="font-weight:bold;">{{ metrics.pending_invoices }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Paid</span><span style="font-weight:bold; color:var(--success-color);">{{ metrics.paid_invoices }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Overdue</span><span style="font-weight:bold; color:var(--danger-color);">{{ metrics.overdue_invoices }}</span>
+        </div>
+        
+        <!-- Simple CSS Bar Chart for Invoices -->
+        {% set total_inv = metrics.pending_invoices + metrics.paid_invoices + metrics.overdue_invoices %}
+        {% if total_inv > 0 %}
+        <div style="width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin-top:1rem;">
+            <div style="width: {{ (metrics.paid_invoices / total_inv) * 100 }}%; background: var(--success-color);"></div>
+            <div style="width: {{ (metrics.pending_invoices / total_inv) * 100 }}%; background: var(--warning-color);"></div>
+            <div style="width: {{ (metrics.overdue_invoices / total_inv) * 100 }}%; background: var(--danger-color);"></div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="card">
+        <h3 style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">Tasks & Follow-ups</h3>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Pending Tasks</span><span style="font-weight:bold;">{{ metrics.pending_tasks }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Completed Tasks</span><span style="font-weight:bold; color:var(--success-color);">{{ metrics.completed_tasks }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Follow-ups Due Today</span><span style="font-weight:bold; color:var(--warning-color);">{{ metrics.due_followups }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Overdue Follow-ups</span><span style="font-weight:bold; color:var(--danger-color);">{{ metrics.overdue_followups }}</span>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% block title %}Sale Details - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card" style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div>
+        <h1>Sale #{{ sale.id[:8] }}</h1>
+        <p><strong>Customer:</strong> {{ customer_name }}</p>
+        <p><strong>Date:</strong> {{ sale.sales_date }}</p>
+        <p><strong>Status:</strong> {{ sale.status }}</p>
+    </div>
+    <a href="{{ url_for('sales.list_sales') }}" class="btn" style="background: var(--border-color);">Back to Sales</a>
+</div>
+<div class="card">
+    <h2>Order Items</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-top:1rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Product</th>
+                <th style="padding: 0.75rem;">Price</th>
+                <th style="padding: 0.75rem;">Qty</th>
+                <th style="padding: 0.75rem;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in sale.get('items', []) %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem;">{{ item.product_name }}</td>
+                <td style="padding: 0.75rem;">${{ "%.2f"|format(item.price) }}</td>
+                <td style="padding: 0.75rem;">{{ item.quantity }}</td>
+                <td style="padding: 0.75rem;">${{ "%.2f"|format(item.line_total) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="margin-top: 1.5rem; text-align: right;">
+        <p><strong>Subtotal:</strong> ${{ "%.2f"|format(sale.subtotal) }}</p>
+        <p><strong>Discount:</strong> -${{ "%.2f"|format(sale.discount) }}</p>
+        <p><strong>Tax ({{ sale.tax_rate }}%):</strong> ${{ "%.2f"|format(sale.tax_amount) }}</p>
+        <h3 style="margin-top: 0.5rem; color: var(--primary-color);">Total: ${{ "%.2f"|format(sale.total) }}</h3>
+    </div>
+</div>
+{% endblock %}

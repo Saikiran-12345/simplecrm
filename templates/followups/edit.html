@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}{% block content %}<div class="card"><h1>Edit Follow-up</h1><form method="POST">
+<div class="form-group"><label>Notes</label><textarea name="notes" class="form-control" required>{{ followup.notes if followup else '' }}</textarea></div>
+<div class="form-group"><label>Due Date</label><input type="date" name="due_date" value="{{ followup.due_date if followup else '' }}" class="form-control"></div>
+<div class="form-group"><label>Priority</label><select name="priority" class="form-control">
+    <option value="Low" {% if followup and followup.priority == 'Low' %}selected{% endif %}>Low</option>
+    <option value="Medium" {% if followup and followup.priority == 'Medium' %}selected{% endif %}>Medium</option>
+    <option value="High" {% if followup and followup.priority == 'High' %}selected{% endif %}>High</option>
+</select></div>
+<div class="form-group"><label>Status</label><select name="status" class="form-control">
+    <option value="Pending" {% if followup and followup.status == 'Pending' %}selected{% endif %}>Pending</option>
+    <option value="In Progress" {% if followup and followup.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+    <option value="Completed" {% if followup and followup.status == 'Completed' %}selected{% endif %}>Completed</option>
+    <option value="Cancelled" {% if followup and followup.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+</select></div>
+<button class="btn btn-primary">Save</button></form></div>{% endblock %}

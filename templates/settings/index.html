@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+{% block title %}System Settings - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card"><h1>System Settings</h1></div>
+<div class="card">
+    <form method="POST">
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Company Name</label>
+            <input type="text" name="company_name" value="{{ settings.get('company_name', 'SimpleCRM') }}" style="width:100%; padding:0.5rem;">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Default Currency Symbol</label>
+            <input type="text" name="default_currency" value="{{ settings.get('default_currency', '$') }}" style="width:100%; padding:0.5rem;">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Timezone</label>
+            <input type="text" name="timezone" value="{{ settings.get('timezone', 'UTC') }}" style="width:100%; padding:0.5rem;">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>UI Theme</label>
+            <select name="theme" style="width:100%; padding:0.5rem;">
+                <option value="light" {% if settings.get('theme') == 'light' %}selected{% endif %}>Light Mode</option>
+                <option value="dark" {% if settings.get('theme') == 'dark' %}selected{% endif %}>Dark Mode (CSS Optional)</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

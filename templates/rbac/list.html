@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+{% block title %}RBAC - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card"><h1>Role-Based Access Control</h1></div>
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.75rem;">Username</th><th style="padding: 0.75rem;">Current Role</th><th style="padding: 0.75rem;">Change Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.75rem;">{{ u.username }}</td>
+                <td style="padding: 0.75rem; font-weight:bold;">{{ u.role }}</td>
+                <td style="padding: 0.75rem;">
+                    <form method="POST" action="{{ url_for('rbac.update_role') }}" style="display:flex; gap:0.5rem;">
+                        <input type="hidden" name="user_id" value="{{ u.id }}">
+                        <select name="role" style="padding:0.25rem;">
+                            <option value="User" {% if u.role == 'User' %}selected{% endif %}>User</option>
+                            <option value="Manager" {% if u.role == 'Manager' %}selected{% endif %}>Manager</option>
+                            <option value="Admin" {% if u.role == 'Admin' %}selected{% endif %}>Admin</option>
+                        </select>
+                        <button class="btn btn-primary" style="padding:0.25rem 0.5rem;">Apply</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

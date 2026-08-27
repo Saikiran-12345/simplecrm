@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="card">
+    <h1>Create Workflow Rule</h1>
+    <form method="POST">
+        <div class="form-group"><label>Rule Name</label><input type="text" name="name" required></div>
+        <div class="form-group"><label>Target Module</label><select name="module"><option value="leads">Leads</option><option value="customers">Customers</option></select></div>
+        <div class="form-group"><label>Trigger Event</label><select name="event_type"><option value="CREATE">On Create</option><option value="UPDATE">On Update</option></select></div>
+        <hr style="margin:1rem 0;">
+        <h3>Condition</h3>
+        <div style="display:flex; gap:1rem;">
+            <input type="text" name="cond_field" placeholder="Field (e.g. status)" style="flex:1;">
+            <select name="cond_operator"><option value="EQUALS">Equals</option><option value="GREATER_THAN">Greater Than</option></select>
+            <input type="text" name="cond_value" placeholder="Value" style="flex:1;">
+        </div>
+        <hr style="margin:1rem 0;">
+        <h3>Action</h3>
+        <select name="action_type" class="form-control"><option value="CREATE_TASK">Create Task</option><option value="SEND_NOTIFICATION">Send Alert</option></select>
+        <br><br>
+        <button class="btn btn-primary">Save Workflow</button>
+    </form>
+</div>
+{% endblock %}

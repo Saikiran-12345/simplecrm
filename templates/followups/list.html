@@ -1,0 +1,1 @@
+{% extends "base/base.html" %}{% block content %}<div class="card"><h1>Follow-ups</h1><a href="{{ url_for('followups.create_followup') }}" class="btn btn-primary">Add Follow-up</a></div><div class="card"><ul>{% for f in followups %}<li><a href="{{ url_for('followups.edit_followup', record_id=f.id) }}">{{ f.notes }}</a> ({{ f.status }})</li>{% endfor %}</ul></div>{% endblock %}

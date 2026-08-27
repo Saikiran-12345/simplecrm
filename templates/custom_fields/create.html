@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="card">
+    <h1>Define New Custom Field</h1>
+    <form method="POST">
+        <div class="form-group"><label>Target Module</label><select name="module"><option value="customers">Customers</option><option value="leads">Leads</option><option value="products">Products</option></select></div>
+        <div class="form-group"><label>Field Label</label><input type="text" name="field_label" required placeholder="e.g. Tax ID"></div>
+        <div class="form-group"><label>Internal Name (no spaces)</label><input type="text" name="field_name" required placeholder="e.g. tax_id"></div>
+        <div class="form-group"><label>Field Type</label><select name="field_type"><option value="text">Text String</option><option value="number">Number</option><option value="date">Date</option></select></div>
+        <div class="form-group"><label><input type="checkbox" name="is_required"> Required Field</label></div>
+        <button class="btn btn-primary">Save Custom Field</button>
+    </form>
+</div>
+{% endblock %}

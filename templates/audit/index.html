@@ -1,0 +1,34 @@
+{% extends "base/base.html" %}
+{% block title %}Audit Logs - SimpleCRM{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>System Audit Logs</h1>
+    <p style="color:var(--text-muted);">Tracking global C-U-D operations. (Showing last 100)</p>
+</div>
+<div class="card" style="max-height: 600px; overflow-y: auto;">
+    <table style="width: 100%; border-collapse: collapse; font-family: monospace; font-size: 0.9rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 0.5rem;">Timestamp (UTC)</th>
+                <th style="padding: 0.5rem;">User</th>
+                <th style="padding: 0.5rem;">Action</th>
+                <th style="padding: 0.5rem;">Module</th>
+                <th style="padding: 0.5rem;">Record ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr style="border-bottom: 1px solid var(--border-color); background: {% if loop.index is odd %}#f8fafc{% else %}#ffffff{% endif %};">
+                <td style="padding: 0.5rem;">{{ log.timestamp }}</td>
+                <td style="padding: 0.5rem;">{{ log.user }}</td>
+                <td style="padding: 0.5rem; color: {% if log.action=='CREATE' %}var(--success-color){% elif log.action=='DELETE' %}var(--danger-color){% else %}#3b82f6{% endif %}; font-weight:bold;">{{ log.action }}</td>
+                <td style="padding: 0.5rem;">{{ log.module }}</td>
+                <td style="padding: 0.5rem; color: var(--text-muted);">{{ log.record_id }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="padding: 1rem; text-align: center;">No audit logs yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
