@@ -16,3 +16,6 @@ make run
 
 ## API Documentation
 Refer to the /api/v1/ endpoints.
+
+## Deployment
+Deploy via Docker.
