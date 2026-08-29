@@ -13,3 +13,6 @@ make build
 make run
 `
 
+
+## API Documentation
+Refer to the /api/v1/ endpoints.
