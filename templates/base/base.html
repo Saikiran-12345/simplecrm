@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ global_settings.get('company_name', 'SimpleCRM') }}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -15,27 +16,27 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('customers.list_customers') }}">Customers</a></li>
-                    <li><a href="{{ url_for('contacts.list_contacts') }}">Contacts</a></li>
-                    <li><a href="{{ url_for('leads.list_leads') }}">Leads</a></li>
-                    <li><a href="{{ url_for('opportunities.list_opportunities') }}">Opportunities</a></li>
-                    <li><a href="{{ url_for('products.list_products') }}">Products</a></li>
-                    <li><a href="{{ url_for('sales.list_sales') }}">Sales</a></li>
-                    <li><a href="{{ url_for('invoices.list_invoices') }}">Invoices</a></li>
-                    <li><a href="{{ url_for('payments.list_payments') }}">Payments</a></li>
-                    <li><a href="{{ url_for('tasks.list_tasks') }}">Tasks</a></li>
-                    <li><a href="{{ url_for('followups.list_followups') }}">Follow-ups</a></li>
-                    <li><a href="{{ url_for('notes.list_notes') }}">Notes</a></li>
-                    <li><a href="{{ url_for('reports.index') }}">Reports</a></li>
-                    <li><a href="{{ url_for('analytics.index') }}">Analytics</a></li>
+                    <li><a href="{{ url_for('dashboard.index') }}"><i class="fa-solid fa-gauge" style="width:20px;"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('customers.list_customers') }}"><i class="fa-solid fa-users" style="width:20px;"></i> Customers</a></li>
+                    <li><a href="{{ url_for('contacts.list_contacts') }}"><i class="fa-solid fa-address-book" style="width:20px;"></i> Contacts</a></li>
+                    <li><a href="{{ url_for('leads.list_leads') }}"><i class="fa-solid fa-bullseye" style="width:20px;"></i> Leads</a></li>
+                    <li><a href="{{ url_for('opportunities.list_opportunities') }}"><i class="fa-solid fa-handshake" style="width:20px;"></i> Opportunities</a></li>
+                    <li><a href="{{ url_for('products.list_products') }}"><i class="fa-solid fa-box" style="width:20px;"></i> Products</a></li>
+                    <li><a href="{{ url_for('sales.list_sales') }}"><i class="fa-solid fa-chart-line" style="width:20px;"></i> Sales</a></li>
+                    <li><a href="{{ url_for('invoices.list_invoices') }}"><i class="fa-solid fa-file-invoice-dollar" style="width:20px;"></i> Invoices</a></li>
+                    <li><a href="{{ url_for('payments.list_payments') }}"><i class="fa-solid fa-credit-card" style="width:20px;"></i> Payments</a></li>
+                    <li><a href="{{ url_for('tasks.list_tasks') }}"><i class="fa-solid fa-list-check" style="width:20px;"></i> Tasks</a></li>
+                    <li><a href="{{ url_for('followups.list_followups') }}"><i class="fa-solid fa-reply-all" style="width:20px;"></i> Follow-ups</a></li>
+                    <li><a href="{{ url_for('notes.list_notes') }}"><i class="fa-solid fa-note-sticky" style="width:20px;"></i> Notes</a></li>
+                    <li><a href="{{ url_for('reports.index') }}"><i class="fa-solid fa-chart-pie" style="width:20px;"></i> Reports</a></li>
+                    <li><a href="{{ url_for('analytics.index') }}"><i class="fa-solid fa-chart-column" style="width:20px;"></i> Analytics</a></li>
                     
                     {% if session.get('user_role') == 'Admin' %}
                     <li style="margin-top:1.5rem; padding-left:1.5rem; font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:bold;">Administration</li>
-                    <li><a href="{{ url_for('employees.list_employees') }}">Employees</a></li>
-                    <li><a href="{{ url_for('rbac.list_roles') }}">User Roles</a></li>
-                    <li><a href="{{ url_for('audit.index') }}">Audit Logs</a></li>
-                    <li><a href="{{ url_for('settings.index') }}">Settings</a></li>
+                    <li><a href="{{ url_for('employees.list_employees') }}"><i class="fa-solid fa-user-tie" style="width:20px;"></i> Employees</a></li>
+                    <li><a href="{{ url_for('rbac.list_roles') }}"><i class="fa-solid fa-user-shield" style="width:20px;"></i> User Roles</a></li>
+                    <li><a href="{{ url_for('audit.index') }}"><i class="fa-solid fa-clock-rotate-left" style="width:20px;"></i> Audit Logs</a></li>
+                    <li><a href="{{ url_for('settings.index') }}"><i class="fa-solid fa-gear" style="width:20px;"></i> Settings</a></li>
                     {% endif %}
                 </ul>
             </nav>
@@ -46,20 +47,20 @@
             <!-- Top Navbar -->
             <header class="top-header">
                 <form class="search-bar" action="{{ url_for('search.global_search') }}" method="GET">
-                    <input type="text" name="q" placeholder="Global Search (Customers, Leads, Opps)...">
+                    <div style="position:relative; display:flex; align-items:center;"><i class="fa-solid fa-magnifying-glass" style="position:absolute; left:10px; color:#aaa;"></i><input type="text" name="q" placeholder="Global Search..." style="padding-left:35px; width:300px;"></div>
                 </form>
                 
                 <div class="header-actions">
                     <a href="{{ url_for('notifications.index') }}">
-                        Alerts 
+                        <i class="fa-solid fa-bell"></i> Alerts 
                         {% if unread_notifications and unread_notifications > 0 %}
                         <span class="badge">{{ unread_notifications }}</span>
                         {% endif %}
                     </a>
                     
                     {% if session.get('user_id') %}
-                    <span>{{ session.get('username') }} ({{ session.get('user_role') }})</span>
-                    <a href="{{ url_for('auth.logout') }}" style="color:var(--danger-color);">Logout</a>
+                    <span><i class="fa-solid fa-circle-user"></i> {{ session.get('username') }} ({{ session.get('user_role') }})</span>
+                    <a href="{{ url_for('auth.logout') }}" style="color:var(--danger-color);"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                     {% else %}
                     <a href="{{ url_for('auth.login') }}">Login</a>
                     {% endif %}
